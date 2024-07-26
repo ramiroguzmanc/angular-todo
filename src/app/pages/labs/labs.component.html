@@ -2,19 +2,19 @@
 	<h1>Hello, este es mi primer proyecto en Angular</h1>
 	<h2>{{ welcomeMessage }}</h2>
 	<!-- <h3>Con sintaxis antigua</h3> -->
-	<ul>
+	<!-- <ul>
 		<li *ngFor="let task of tasks">
 			{{ task }}
 		</li>
-	</ul>
+	</ul> -->
 	<!-- <h3>Con la nueva sintaxis</h3> -->
-	<!-- <ul>
+	<ul>
 		@for (task of tasks; track task) {
-			<li>{{ task }}</li>
-			} @empty {
-				<li>Aún no hay tareas!</li>
-				}
-			</ul> -->
+		<li>{{ task }}</li>
+		} @empty {
+		<li>Aún no hay tareas!</li>
+		}
+	</ul>
 
 	<hr />
 	<h1>Expresiones y property binding</h1>
@@ -42,20 +42,36 @@
 		[value]="signalName()"
 		(input)="handleSignalChange($event)"
 	/>
-	<p *ngIf="signalName() === 'Ramiro'; else bloqueOtro">Hola Ramiro!</p>
+	<!-- <p *ngIf="signalName() === 'Ramiro'; else bloqueOtro">Hola Ramiro!</p>
 	<ng-template #bloqueOtro>
 		<p>Escribe otro nombre</p>
-	</ng-template>
+	</ng-template> -->
+	@if(signalName() === 'Ramiro') {
+	<p>Hola Ramiro!</p>
+	} @else {
+	<p>Escribe otro nombre</p>
+	}
 	<hr />
 	<h1>Switch</h1>
-	<div [ngSwitch]="signalName()">
+	<!-- <div [ngSwitch]="signalName()">
 		<p *ngSwitchCase="'ana'">Yo soy ana</p>
 		<p *ngSwitchCase="'José'">Yo soy José</p>
 		<p *ngSwitchCase="'Carlos'">Yo soy Carlos</p>
 		<p *ngSwitchDefault>
 			No hay nombre compatible. Escribe en el input signal (ana, José, Carlos)
 		</p>
-	</div>
+	</div> -->
+	@switch (signalName()) { @case ('ana') {
+	<p>Yo soy ana</p>
+	} @case ('José') {
+	<p>Yo soy José</p>
+	} @case ('Carlos') {
+	<p>Yo soy Carlos</p>
+	} @default {
+	<p>
+		No hay nombre compatible. Escribe en el input signal (ana, José, Carlos)
+	</p>
+	} }
 	<hr />
 	<h1>Forms</h1>
 	<input type="color" [formControl]="colorControl" />

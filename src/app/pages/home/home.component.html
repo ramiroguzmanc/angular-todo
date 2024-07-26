@@ -17,32 +17,8 @@
 		<!-- This section should be hidden by default and shown when there are todos -->
 		<section class="main">
 			<ul class="todo-list">
-				<!-- <li class="completed">
-					<div class="view">
-						<input class="toggle" type="checkbox" checked />
-						<label>Learn JavaScript</label>
-						<button class="destroy"></button>
-					</div>
-					<input class="edit" value="Learn JavaScript" />
-				</li>
-				<li>
-					<div class="view">
-						<input class="toggle" type="checkbox" />
-						<label>Buy a unicorn</label>
-						<button class="destroy"></button>
-					</div>
-					<input class="edit" value="Buy a unicorn" />
-				</li>
-				<li class="editing">
-					<div class="view">
-						<input class="toggle" type="checkbox" />
-						<label>Make dishes</label>
-						<button class="destroy"></button>
-					</div>
-					<input class="edit" value="Make dishes" />
-				</li> -->
+				@for (task of filteredTasks(); track task.id) {
 				<li
-					*ngFor="let task of filteredTasks()"
 					[class.completed]="task.completed"
 					[class.editing]="task.editing"
 					(dblclick)="enableEditMode(task.id)"
@@ -63,6 +39,31 @@
 						(keydown.enter)="updateTask(task.id, $event)"
 					/>
 				</li>
+				}@empty {
+				<p [style.paddingLeft.px]="15">Aún no hay tareas, agrega la primera!</p>
+				}
+				<!-- <li
+					*ngFor="let task of filteredTasks()"
+					[class.completed]="task.completed"
+					[class.editing]="task.editing"
+					(dblclick)="enableEditMode(task.id)"
+				>
+					<div class="view">
+						<input
+							class="toggle"
+							type="checkbox"
+							[checked]="task.completed"
+							(change)="completeTask(task.id)"
+						/>
+						<label>{{ task.title }}</label>
+						<button class="destroy" (click)="deleteTask(task.id)"></button>
+					</div>
+					<input
+						class="edit"
+						[value]="task.title"
+						(keydown.enter)="updateTask(task.id, $event)"
+					/>
+				</li> -->
 			</ul>
 		</section>
 		<!-- This footer should be hidden by default and shown when there are todos -->
@@ -70,9 +71,16 @@
 			<!-- This should be `0 items left` by default -->
 			<span class="todo-count">
 				<strong>{{ incompleteTaskCount }}</strong>
-				<span *ngIf="filteredTasks().length === 1; else pluralWord"> item</span>
+				@if (filteredTasks().length === 1) {
+				<span> item</span>
+				}@else {
+				<span> items </span>
+				} @if (filter() === TaskFilter.PENDING) {
+				<span> left</span>
+				}
+				<!-- <span *ngIf="filteredTasks().length === 1; else pluralWord"> item</span>
 				<ng-template #pluralWord> items </ng-template>
-				<span *ngIf="filter() === TaskFilter.PENDING">left</span>
+				<span *ngIf="filter() === TaskFilter.PENDING">left</span> -->
 			</span>
 			<!-- Remove this if you don't implement routing -->
 			<ul class="filters">
